@@ -2,16 +2,35 @@ const GEMINI_API_KEY = "AIzaSyDzKq9n6SlpMzloQ0IkWbIkqLICHBSXszY";
 const GEMINI_ENDPOINT =
   "https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent";
 
-const promptText = `Jesteś ekspertem ds. żywienia i analizujesz wizualnie posiłki. Twoim zadaniem jest oszacowanie wartości kalorycznej na podstawie załączonego zdjęcia.
+const promptText = `Jesteś doświadczonym dietetykiem specjalizującym się w precyzyjnej analizie wartości odżywczych posiłków na podstawie zdjęć. Twoim zadaniem jest jak najdokładniejsze oszacowanie kaloryczności posiłku.
 
-Wykonaj następujące, dokładne kroki analizy:
-1.  **Identyfikacja Składników:** Wylistuj wszystkie główne składniki posiłku widoczne na zdjęciu (np. rodzaj mięsa, zboża, warzywa, sosy).
-2.  **Oszacowanie Gramatury:** Oszacuj przybliżoną, rozsądną porcję lub gramaturę (w gramach lub mililitrach) każdego zidentyfikowanego składnika.
-3.  **Kalkulacja Kaloryczna:** Na podstawie oszacowanej gramatury i standardowych wartości odżywczych, oblicz całkowitą szacowaną kaloryczność (w kilokaloriach, kcal) dla całego posiłku.
+**KLUCZOWE ZASADY ANALIZY:**
+1. Dokładnie oceń rozmiar porcji, porównując składniki do standardowych obiektów referencyjnych (np. talerz ~25cm średnicy, sztućce, dłoń).
+2. Zwróć szczególną uwagę na sposób przygotowania (smażone, gotowane, pieczone) - ma to ogromny wpływ na kaloryczność.
+3. Uwzględnij widoczne tłuszcze, sosy, dodatki - często są one głównym źródłem kalorii.
+4. Bądź konserwatywny w szacunkach - lepiej niedoszacować niż przeszacować.
+5. Jeśli nie jesteś pewien składnika, podaj najbardziej prawdopodobną opcję z niższą kalorycznością.
 
-**Format Odpowiedzi:**
-Sformatuj całą odpowiedź w języku polskim, używając listy do wyszczególnienia składników, a końcowy wynik podaj zawsze na końcu w wyraźnie pogrubionej sekcji.
-**Całkowita szacowana kaloryczność posiłku: [Wartość w kcal] kcal.**`;
+**PROCES ANALIZY:**
+1. **Identyfikacja składników:** Wypisz każdy widoczny składnik posiłku ze szczegółami (rodzaj mięsa/ryby, typ węglowodanów, warzywa, dodatki, sosy).
+2. **Oszacowanie gramatury:** Dla każdego składnika podaj realistyczną wagę w gramach, bazując na:
+   - Rozmiarze talerza i proporcjach
+   - Grubości/wysokości warstw
+   - Gęstości produktu
+   - Standardowych porcjach (np. pierś z kurczaka ~150g, ryż gotowany ~150g)
+3. **Kalkulacja szczegółowa:** Dla każdego składnika oblicz kalorie używając dokładnych wartości odżywczych:
+   - Białko: ~4 kcal/g
+   - Węglowodany: ~4 kcal/g
+   - Tłuszcze: ~9 kcal/g
+4. **Weryfikacja:** Sprawdź czy suma jest realistyczna dla danego typu posiłku i rozmiaru porcji.
+
+**FORMAT ODPOWIEDZI (po polsku):**
+Przedstaw analizę w następującej strukturze:
+- Lista składników z gramaturą i kaloriami każdego
+- Krótkie uzasadnienie kluczowych założeń
+- Na końcu wyraźnie pogrubiona suma:
+
+**Całkowita szacowana kaloryczność posiłku: [wartość] kcal**`;
 
 const fileInput = document.querySelector("#mealImage");
 const analyzeButton = document.querySelector("#analyzeButton");
@@ -23,6 +42,8 @@ const previewContainer = document.querySelector("#previewContainer");
 const previewImage = document.querySelector("#imagePreview");
 const previewFilename = document.querySelector("#previewFilename");
 const fileDropLabel = document.querySelector(".file-drop");
+const analysisExpandable = document.querySelector("#analysisExpandable");
+const analysisExpandableContent = document.querySelector("#analysisExpandableContent");
 
 let selectedFile = null;
 
@@ -197,9 +218,7 @@ function renderMessage(message, isError = false) {
 }
 
 function renderAnalysis(rawText, calorieInfo) {
-  if (!analysisDetailsEl || !calorieValueEl) return;
-
-  analysisDetailsEl.innerHTML = "";
+  if (!calorieValueEl || !analysisExpandableContent) return;
 
   const formatted = document.createElement("div");
   formatted.className = "analysis-text";
@@ -210,8 +229,14 @@ function renderAnalysis(rawText, calorieInfo) {
         .replace(/\n/g, "<br>")
     : "Brak treści odpowiedzi od modelu.";
 
-  // Ensure content wrapped in paragraphs for spacing
-  analysisDetailsEl.appendChild(formatAsParagraphs(formatted.innerHTML));
+  // Populate expandable section
+  analysisExpandableContent.innerHTML = "";
+  analysisExpandableContent.appendChild(formatAsParagraphs(formatted.innerHTML));
+
+  // Show expandable section
+  if (analysisExpandable) {
+    analysisExpandable.style.display = "block";
+  }
 
   if (calorieInfo?.value) {
     calorieValueEl.textContent = `${calorieInfo.value} kcal`;
