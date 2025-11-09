@@ -22,6 +22,7 @@ const placeholderEl = document.querySelector("#analysisPlaceholder");
 const previewContainer = document.querySelector("#previewContainer");
 const previewImage = document.querySelector("#imagePreview");
 const previewFilename = document.querySelector("#previewFilename");
+const fileDropLabel = document.querySelector(".file-drop");
 
 let selectedFile = null;
 
@@ -50,10 +51,12 @@ function togglePreview(isVisible) {
   if (!previewContainer) return;
   if (isVisible) {
     previewContainer.removeAttribute("hidden");
+    fileDropLabel?.classList.add("has-preview");
   } else {
     previewContainer.setAttribute("hidden", "hidden");
     previewImage.removeAttribute("src");
     previewFilename.textContent = "";
+    fileDropLabel?.classList.remove("has-preview");
   }
 }
 
