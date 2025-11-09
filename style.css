@@ -140,7 +140,11 @@ main,
 .upload-card,
 .results-card {
   display: grid;
-  gap: clamp(16px, 2.4vw, 24px);
+  gap: clamp(16px, 2.4vw, 20px);
+}
+
+.results-card > .section-intro {
+  margin-bottom: clamp(8px, 1.5vw, 12px);
 }
 
 h2 {
@@ -324,14 +328,16 @@ button:disabled {
 .results {
   background: rgba(8, 16, 30, 0.55);
   border-radius: 16px;
-  padding: 24px;
+  padding: 20px;
   border: 1px solid rgba(255, 255, 255, 0.08);
   min-height: 200px;
+  max-height: 600px;
+  overflow-y: auto;
   line-height: 1.65;
   display: grid;
-  align-content: center;
+  align-content: start;
   justify-items: center;
-  gap: 12px;
+  gap: 14px;
 }
 
 .calorie-total {
@@ -362,10 +368,64 @@ button:disabled {
 }
 
 .analysis-details {
-  display: grid;
-  gap: 14px;
+  display: none;
+}
+
+.analysis-expandable {
+  display: none;
   width: 100%;
-  text-align: center;
+  border: 1px solid rgba(110, 170, 190, 0.25);
+  border-radius: 14px;
+  padding: 0;
+  background: rgba(10, 20, 35, 0.35);
+}
+
+.analysis-expandable[open] {
+  background: rgba(10, 20, 35, 0.55);
+}
+
+.analysis-expandable summary {
+  padding: 14px 18px;
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--accent);
+  list-style: none;
+  user-select: none;
+  transition: color 0.2s ease;
+}
+
+.analysis-expandable summary::-webkit-details-marker {
+  display: none;
+}
+
+.analysis-expandable summary::after {
+  content: "▼";
+  float: right;
+  font-size: 0.85rem;
+  transition: transform 0.25s ease;
+}
+
+.analysis-expandable[open] summary::after {
+  transform: rotate(180deg);
+}
+
+.analysis-expandable summary:hover {
+  color: var(--accent-hover);
+}
+
+.analysis-expandable__content {
+  padding: 0 18px 18px;
+  text-align: left;
+  line-height: 1.65;
+  color: var(--text-secondary);
+}
+
+.analysis-expandable__content p {
+  margin: 0 0 12px;
+}
+
+.analysis-expandable__content strong {
+  color: var(--text-primary);
 }
 
 .analysis-details p,
@@ -429,7 +489,7 @@ button:disabled {
 @media (min-width: 960px) {
   .app-main {
     grid-template-columns: repeat(2, 1fr);
-    align-items: stretch;
+    align-items: start;
   }
 }
 
