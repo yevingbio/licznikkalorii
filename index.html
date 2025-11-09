@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Analiza Kaloryczna Posiłków</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="app-background"></div>
+    <div class="app-wrapper">
+      <header class="glass-card app-header">
+        <div class="header-top">
+          <span class="badge">Smart Calorie Scan</span>
+          <span class="tagline">Precyzyjne szacunki kaloryczne na podstawie zdjęcia</span>
+        </div>
+        <div class="header-content">
+          <h1>Analiza Kaloryczna Posiłku</h1>
+          <p>
+            Wgraj zdjęcie posiłku, a inteligentny algorytm oszacuje jego skład,
+            gramaturę oraz całkowitą liczbę kalorii. Otrzymasz przejrzysty raport
+            z kluczowymi wnioskami.
+          </p>
+        </div>
+      </header>
+
+      <main class="app-main">
+        <section class="glass-card upload-card">
+          <h2>Krok 1: Wgraj zdjęcie</h2>
+          <p class="section-intro">
+            Obsługiwane są pliki graficzne (PNG, JPG, JPEG, WEBP). Upewnij się,
+            że zdjęcie dobrze przedstawia cały posiłek.
+          </p>
+
+          <label class="file-drop" for="mealImage">
+            <span class="file-drop__icon" aria-hidden="true">📸</span>
+            <span class="file-drop__text">
+              Przeciągnij i upuść plik, kliknij aby wybrać z dysku lub wykonaj
+              zdjęcie aparatem.
+            </span>
+            <input
+              type="file"
+              id="mealImage"
+              accept="image/*"
+              capture="environment"
+              aria-label="Wgraj zdjęcie posiłku"
+            />
+          </label>
+
+          <div class="preview" id="previewContainer" hidden>
+            <img id="imagePreview" alt="Podgląd wgranego posiłku" />
+            <p class="preview__filename" id="previewFilename"></p>
+          </div>
+
+          <div class="card-actions">
+            <button id="analyzeButton" type="button" disabled>Oblicz</button>
+            <p class="action-hint">
+              Analiza trwa zwykle kilka sekund. Upewnij się, że posiłek jest dobrze
+              widoczny na zdjęciu.
+            </p>
+          </div>
+        </section>
+
+        <section class="glass-card results-card">
+          <h2>Krok 2: Wyniki analizy</h2>
+          <p class="section-intro">
+            Po zakończeniu analizy otrzymasz dokładne zestawienie składników oraz
+            kluczowe rekomendacje żywieniowe.
+          </p>
+
+          <div class="results" id="results">
+            <div class="calorie-total" id="calorieTotal" aria-live="polite">
+              <span class="label">Szacowana kaloryczność</span>
+              <span class="value" id="calorieValue">-- kcal</span>
+            </div>
+            <div class="analysis-details" id="analysisDetails">
+              <p class="placeholder" id="analysisPlaceholder">
+                Wyniki analizy pojawią się tutaj po przesłaniu zdjęcia.
+              </p>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer class="glass-card app-footer">
+        <small>
+          Szacunki mają charakter orientacyjny i nie zastępują konsultacji z
+          dietetykiem.
+        </small>
+      </footer>
+    </div>
+
+    <script src="script.js" defer></script>
+  </body>
+</html>
