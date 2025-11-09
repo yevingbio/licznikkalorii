@@ -39,11 +39,16 @@
           </p>
 
           <label class="file-drop" for="mealImage">
-            <span class="file-drop__icon" aria-hidden="true">📸</span>
-            <span class="file-drop__text">
-              Przeciągnij i upuść plik, kliknij aby wybrać z dysku lub wykonaj
-              zdjęcie aparatem.
-            </span>
+            <div class="file-drop__visual" aria-hidden="true">
+              <div class="file-drop__icon"></div>
+            </div>
+            <div class="file-drop__copy">
+              <strong>Dodaj zdjęcie posiłku</strong>
+              <span
+                >Przeciągnij plik, wybierz z galerii lub wykonaj zdjęcie
+                aparatem.</span
+              >
+            </div>
             <input
               type="file"
               id="mealImage"
@@ -80,9 +85,7 @@
               <span class="value" id="calorieValue">-- kcal</span>
             </div>
             <div class="analysis-details" id="analysisDetails">
-              <p class="placeholder" id="analysisPlaceholder">
-                Wyniki analizy pojawią się tutaj po przesłaniu zdjęcia.
-              </p>
+              <p class="placeholder" id="analysisPlaceholder">Wyniki analizy pojawią się tutaj po przesłaniu zdjęcia.</p>
             </div>
           </div>
         </section>
